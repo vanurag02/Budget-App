@@ -14,6 +14,7 @@ const Error = () => {
       <p>{error.message || error.statusText}</p>
       <div className="flex-md">
         <button className="btn btn--dark" onClick={() => navigate(-1)}>
+          <ArrowUturnLeftIcon width={20} />
           <span>Go Back</span>
         </button>
         <Link to="/" className="btn btn--dark">
