@@ -4,6 +4,11 @@ BELOW FUNCTION RETREIVES DATA FROM localStorage USING PROVIDED KEY
 AND CONVERTS THE STORED JSON STRING BACK TO JAVASCRIPT OBJECT
 */
 
+// DELAY FOR BUDGET SUBMISSION
+export const waait = () =>
+  new Promise((res) => setTimeout(res, Math.random() * 1500));
+
+// COLORS
 const generateRandomColor = () => {
   const existingBudgetLength = fetchData("budgets")?.length ?? 0;
   return `${existingBudgetLength * 34} 65% 50%`;

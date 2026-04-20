@@ -2,7 +2,7 @@ import React from "react";
 
 import { useLoaderData } from "react-router-dom";
 // HELPER FUNCTION IMPORT
-import { createBudget, fetchData } from "../helpers";
+import { createBudget, fetchData, waait } from "../helpers";
 
 // COMPONENTS IMPORT
 import Intro from "../components/Intro";
@@ -18,6 +18,7 @@ export function dashboardLoader() {
 
 // ACTION FUNCTION
 export async function dashboardAction({ request }) {
+  await waait();
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
 
