@@ -7,14 +7,15 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid";
 const AddExpenseForm = ({ budgets }) => {
   const fetcher = useFetcher();
   const isSubmitting = fetcher.state === "submitting";
+
   const formRef = useRef();
   const focusRef = useRef();
 
   useEffect(() => {
     if (!isSubmitting) {
-      // CLEAR FORM
+      // clear form
       formRef.current.reset();
-      // RESET FOCUS
+      // reset focus
       focusRef.current.focus();
     }
   }, [isSubmitting]);
@@ -46,10 +47,10 @@ const AddExpenseForm = ({ budgets }) => {
             <input
               type="number"
               step="0.01"
+              inputMode="decimal"
               name="newExpenseAmount"
               id="newExpenseAmount"
-              placeholder="e.g., $3.50"
-              inputMode="decimal"
+              placeholder="e.g., 3.50"
               required
             />
           </div>
@@ -71,10 +72,11 @@ const AddExpenseForm = ({ budgets }) => {
         <input type="hidden" name="_action" value="createExpense" />
         <button type="submit" className="btn btn--dark" disabled={isSubmitting}>
           {isSubmitting ? (
-            <span>Creating budget</span>
+            <span>Submitting…</span>
           ) : (
             <>
-              <span>Add Expense</span> <PlusCircleIcon width={20} />
+              <span>Add Expense</span>
+              <PlusCircleIcon width={20} />
             </>
           )}
         </button>
@@ -82,5 +84,4 @@ const AddExpenseForm = ({ budgets }) => {
     </div>
   );
 };
-
 export default AddExpenseForm;
