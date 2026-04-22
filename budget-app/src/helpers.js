@@ -1,12 +1,8 @@
 // LOCAL STORAGE
-/* 
-BELOW FUNCTION RETREIVES DATA FROM localStorage USING PROVIDED KEY
-AND CONVERTS THE STORED JSON STRING BACK TO JAVASCRIPT OBJECT
-*/
 
 // DELAY FOR BUDGET SUBMISSION
 export const waait = () =>
-  new Promise((res) => setTimeout(res, Math.random() * 1500));
+  new Promise((res) => setTimeout(res, Math.random() * 800));
 
 // COLORS
 const generateRandomColor = () => {
@@ -21,7 +17,7 @@ export const fetchData = (key) => {
 // CREATE BUDGET
 export const createBudget = ({ name, amount }) => {
   const newItem = {
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(), // FIXED (added ())
     name: name,
     createdAt: Date.now(),
     amount: +amount,
@@ -38,7 +34,7 @@ export const createBudget = ({ name, amount }) => {
 // ADD AN EXPENSE
 export const createExpense = ({ name, amount, budgetId }) => {
   const newItem = {
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(),
     name: name,
     createdAt: Date.now(),
     amount: +amount,
@@ -61,16 +57,20 @@ export const deleteItem = ({ key }) => {
 export const calculateSpentByBudget = (budgetId) => {
   const expenses = fetchData("expenses") ?? [];
   const budgetSpent = expenses.reduce((acc, expense) => {
-    // CHECK IF expense.id === budgetId THAT IS PASSED IN
     if (expense.budgetId !== budgetId) return acc;
-
-    // ADD THE CURRENT AMOUNT TO TOTAL
-    return (acc += expense.amount);
+    return acc + expense.amount;
   }, 0);
   return budgetSpent;
 };
 
 // FORMATTING FUNCTIONS
+
+export const formatDateToLocaleString = (epoch) =>
+  new Date(epoch).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 
 // Currency
 export const formatCurrency = (amt) => {
@@ -81,7 +81,7 @@ export const formatCurrency = (amt) => {
 };
 
 // PERCENTAGES
-export const formatPercent = (amt) => {
+export const formatPercentage = (amt) => {
   return amt.toLocaleString(undefined, {
     style: "percent",
     minimumFractionDigits: 0,
