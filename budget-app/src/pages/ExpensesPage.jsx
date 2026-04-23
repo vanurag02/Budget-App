@@ -2,15 +2,39 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 
 // HELPERS
-import { fetchData } from "../helpers";
+import { deleteItem, fetchData } from "../helpers";
 
 // COMPONENTS
 import Table from "../components/Table";
 
+// TOASTIFY
+import { toast } from "react-toastify";
+
 // LOADER FUNCTION
-export function expensesLoader() {
-  const expenses = fetchData("expenses");
+export async function expensesLoader() {
+  const expenses = await fetchData("expenses");
   return { expenses };
+}
+
+// ACTION
+export async function expensesAction({ request }) {
+  const data = await request.formData();
+  const { _action, ...values } = Object.fromEntries(data);
+
+  // DELETE EXPENSE
+  if (_action === "deleteExpense") {
+    try {
+      // DELETE AN EXPENSE
+      deleteItem({
+        key: "expenses",
+        id: values.expenseId,
+      });
+
+      return toast.success(`Expense deleted`);
+    } catch (e) {
+      throw new Error("There was a problem in deleting your expense.");
+    }
+  }
 }
 
 const ExpensesPage = () => {

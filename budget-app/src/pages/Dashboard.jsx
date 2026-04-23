@@ -4,7 +4,13 @@ import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 // HELPER FUNCTION IMPORT
-import { createBudget, createExpense, fetchData, waait } from "../helpers";
+import {
+  createBudget,
+  createExpense,
+  deleteItem,
+  fetchData,
+  waait,
+} from "../helpers";
 
 // REACT TOASTIFY
 import { toast } from "react-toastify";
@@ -64,6 +70,21 @@ export async function dashboardAction({ request }) {
       return toast.success(`Expense ${values.newExpense} added`);
     } catch (e) {
       throw new Error("There was a problem in adding your expense.");
+    }
+  }
+
+  // DELETE EXPENSE
+  if (_action === "deleteExpense") {
+    try {
+      // DELETE AN EXPENSE
+      deleteItem({
+        key: "expenses",
+        id: values.expenseId,
+      });
+
+      return toast.success(`Expense deleted`);
+    } catch (e) {
+      throw new Error("There was a problem in deleting your expense.");
     }
   }
 }

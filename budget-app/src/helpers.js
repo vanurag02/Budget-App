@@ -10,8 +10,15 @@ const generateRandomColor = () => {
   return `${existingBudgetLength * 34} 65% 50%`;
 };
 
+// LOCAL STORAGE
 export const fetchData = (key) => {
   return JSON.parse(localStorage.getItem(key));
+};
+
+// GET ALL ITEMS FROM LOCAL STORAGE
+export const getAllMatchingItems = ({ category, key, value }) => {
+  const data = fetchData(category) ?? [];
+  return data.filter((item) => item[key] === value);
 };
 
 // CREATE BUDGET
@@ -48,8 +55,13 @@ export const createExpense = ({ name, amount, budgetId }) => {
   );
 };
 
-// DELETE ITEM
-export const deleteItem = ({ key }) => {
+// DELETE ITEM FROM LOCAL STORAGE
+export const deleteItem = ({ key, id }) => {
+  const existingData = fetchData(key);
+  if (id) {
+    const newData = existingData.filter((item) => item.id !== id);
+    return localStorage.setItem(key, JSON.stringify(newData));
+  }
   return localStorage.removeItem(key);
 };
 
